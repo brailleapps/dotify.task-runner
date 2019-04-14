@@ -25,7 +25,7 @@ if [ "$prop_change" = "false" ]; then
 	fi
 fi
 
-if [ "$TRAVIS_REPO_SLUG" == "brailleapps/$repo" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
+if [ "$TRAVIS_REPO_SLUG" == "ologolo/$repo" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
 
   echo -e "Publishing javadoc...\n"
 
@@ -39,9 +39,9 @@ if [ "$TRAVIS_REPO_SLUG" == "brailleapps/$repo" ] && [ "$TRAVIS_PULL_REQUEST" ==
   cd $HOME
   git config --global user.email "travis@travis-ci.org"
   git config --global user.name "travis-ci"
-  git clone --quiet https://${GH_TOKEN}@github.com/brailleapps/brailleapps.github.io  > /dev/null
+  git clone --quiet https://${GH_TOKEN}@github.com/ologolo/ologolo.github.io  > /dev/null
 
-  cd brailleapps.github.io
+  cd ologolo.github.io
   if [ "$is_release" = true ]; then
   	git rm -rf ./$repo/$version
   fi
@@ -50,9 +50,9 @@ if [ "$TRAVIS_REPO_SLUG" == "brailleapps/$repo" ] && [ "$TRAVIS_PULL_REQUEST" ==
   cp -Rf $HOME/$repo/. ./$repo
   
   git add -f .
-  git commit -m "Lastest successful travis build of $repo ($TRAVIS_BUILD_NUMBER) auto-pushed to brailleapps.github.io"
+  git commit -m "Lastest successful travis build of $repo ($TRAVIS_BUILD_NUMBER) auto-pushed to ologolo.github.io"
   git push -fq origin master > /dev/null
 
-  echo -e "Published javadocs to brailleapps.github.io.\n"
+  echo -e "Published javadocs to ologolo.github.io.\n"
   
 fi
