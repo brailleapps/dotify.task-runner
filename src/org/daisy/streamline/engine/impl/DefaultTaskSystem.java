@@ -121,6 +121,13 @@ public class DefaultTaskSystem implements TaskSystem {
 		// Changed this to an unmodifiable map, just to make sure that it is not modified.
 		Map<String, List<TaskGroupInformation>> inputs = Collections.unmodifiableMap(_inputs);
 
+		if (input.equals(output)) {
+			List<TaskGroupInformation> ret = PathInfo.getEnhancers(inputs.get(input));
+			if (!ret.isEmpty()) {
+				return ret;
+			} // else throw exception below
+		}
+		
 		// queue roots
 		List<PathInfo> queue = new ArrayList<>();
 		PathInfo.makePaths(inputs.get(input), Collections.emptyList(), Collections.emptyList())
