@@ -117,11 +117,11 @@ public class TempFileHandler implements Closeable {
 		try {
 			if (getOutput().length() > 0) {
 				Files.copy(getOutput().toPath(), output.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			}
-			else if (getInput().length() > 0) {
+				output.setLastModified(System.currentTimeMillis());
+			} else if (getInput().length() > 0) {
 				Files.copy(getInput().toPath(), output.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			}
-			else {
+				output.setLastModified(System.currentTimeMillis());
+			} else {
 				throw new IOException("Temporary files corrupted.");
 			}
 		} finally {

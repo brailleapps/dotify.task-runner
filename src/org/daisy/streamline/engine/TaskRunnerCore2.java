@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.FileTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -42,6 +43,7 @@ class TaskRunnerCore2 extends AbstractTaskRunnerCore {
 		fd.setTempFolderHandler(new TempFolderHandler(f->{
 			try {
 				Files.copy(fd.getCurrent().getManifest().getPath(), output.toPath(), StandardCopyOption.REPLACE_EXISTING);
+				output.setLastModified(System.currentTimeMillis());
 				return Optional.empty();
 			} catch (IOException e) {
 				return Optional.of(e);
@@ -64,6 +66,11 @@ class TaskRunnerCore2 extends AbstractTaskRunnerCore {
 		fd = new FolderData();
 		fd.setTempFolderHandler(new TempFolderHandler(f->{
 			FileSet c = fd.getCurrent();
+			try {
+				Files.setLastModifiedTime(c.getManifest().getPath(), FileTime.fromMillis(System.currentTimeMillis()));
+			} catch (IOException e) {
+				// do nothing
+			}
 			if (c.getBaseFolder().getPath().equals(f)) {
 				output.accept(c);
 				return Optional.empty();
